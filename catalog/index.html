@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <base href="/" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Inventory System</title>
+
+    <script type="module" src="/login-form.js"></script>
+    <script type="module" src="/product-list.js"></script>
+    <script type="module" src="/product-form.js"></script>
+    <script type="module" src="/app-router.js"></script>
+
+    <link href="/fonts.css" rel="stylesheet" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #0f172a 0%,
+          #312e81 50%,
+          #4c1d95 100%
+        );
+        background-attachment: fixed;
+        color: #f8fafc;
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <app-router></app-router>
+  </body>
+</html>

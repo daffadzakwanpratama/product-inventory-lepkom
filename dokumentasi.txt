@@ -1,0 +1,38 @@
+== Endpoint API ==
+BASE_URL = http://localhost:{PORT}
+
+// API Terkait Produk
+Ambil daftar produk = BASE_URL/api/products         => GET
+Tambah Produk       = BASE_URL/api/products         => POST
+Ubah / Edit Produk  = BASE_URL/api/products/{id}    => PUT
+Hapus Produk        = BASE_URL/api/products/{id}    => DELETE
+
+// API Terkait User
+Ambil daftar user (khusus role admin)   = BASE_URL/api/users                => GET
+Buat user baru    (khusus role admin)   = BASE_URL/api/register             => POST 
+Hapus users       (khusus role admin)   = BASE_URL/api/users/{id}           => DELETE
+Generate Token                          = BASE_URL/api/users/{id}/token     => POST
+Generate Token Admin                    = BASE_URL/api/generate-token       => POST
+
+// Login
+Login via API                           = BASE_URL/api/Login                => POST
+
+Penjelasan Status Response Code
+
+400 Bad Request     : Input JSON client salah.
+401 Unauthorized    : Token kosong, kedaluwarsa, belum dikirim, atau tidak valid.
+403 Forbidden       : Anda mencoba mengakses endpoint untuk Role lain (contoh: bukan Admin).
+404 Not Found       : ID produk yang dicari untuk Delete/Update tidak ditemukan.
+500 Server Error    : Terjadi kesalahan koneksi Database atau Backend Engine.
+
+== Koneksi MySQL ==
+- F4 : mysql -u root
+- F8 : mysql -h dbms.lepkom.f4.com -u APCx -p
+|-> password : lepkom@123
+
+// Environment Connection to Database
+Host        : 127.0.0.1             || dbms.lepkom.f4.com
+Port        : 3306 (MySQL)
+User        : root                  || APCx / BPCx
+Password    : "" (kosong)           || lepkom@123
+Database    : inventory_npm

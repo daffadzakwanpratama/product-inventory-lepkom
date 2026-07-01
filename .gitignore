@@ -1,0 +1,14 @@
+# Binaries and template files
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+product-inventory
+product-inventory.exe
+
+# Environment files (keep credentials safe)
+.env
+
+# Dependencies
+vendor/
