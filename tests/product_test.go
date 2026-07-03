@@ -27,7 +27,7 @@ func TestGetProductsWithoutToken(t *testing.T) {
 
 	// TODO!! Perbaiki nilai ekspektasi di bawah ini agar test LULUS!
 	// Saat ini menguji "StatusOK" (200), padahal seharusnya Middleware menolak dengan "StatusUnauthorized" (401).
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("Respon handler: diekspektasi %v mendapat %v", http.StatusOK, status)
+	if status := rr.Code; status != http.StatusUnauthorized {
+		t.Errorf("Respon handler: diekspektasi %v mendapat %v", http.StatusUnauthorized, status)
 	}
 }

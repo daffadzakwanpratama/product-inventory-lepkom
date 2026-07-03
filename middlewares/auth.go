@@ -17,7 +17,7 @@ func AuthMiddleware(next http.Handler) http.Handler {
 		}
 
 		// Ambil token dari header "Authorization"
-		
+		authHeader := r.Header.Get("Authorization")
 		if authHeader == "" {
 			utils.RespondError(w, http.StatusUnauthorized, "Mana Tokennya?")
 			return
@@ -33,16 +33,21 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 		// Verifikasi keabsahan JWT Token menggunakan utils.ValidateToken()
 		// 1. Coba verifikasi apakah token tersebut JWT yang valid
-		
+		claims, err := utils.ValidateToken(tokenString)
 		if err == nil {
 			username := claims.Username
 
 			// Jika ini adalah token API (Long-Lived JWT), pastikan ia belum di-revoke (dihapus) di DB!
 			if strings.HasSuffix(username, "_api") {
 				if configs.DB != nil {
-					var count int
 					// Buat variabel errDB untuk melihat API Token yang ada & kondisi jika telah dihapus
-
+					var dbToken string
+					realUsername := strings.TrimSuffix(username, "_api")
+					errDB := configs.DB.QueryRow("SELECT api_token FROM users WHERE username = ?", realUsername).Scan(&dbToken)
+					if errDB != nil || dbToken != tokenString {
+						utils.RespondError(w, http.StatusUnauthorized, "Token sudah tidak berlaku (revoked)")
+						return
+					}
 				}
 				username = strings.TrimSuffix(username, "_api")
 			} else {
@@ -73,7 +78,10 @@ func AuthMiddleware(next http.Handler) http.Handler {
 
 			if errDB == nil {
 				// API Token Valid: jalankan request
-
+				ctx := context.WithValue(r.Context(), "username", username)
+				ctx = context.WithValue(ctx, "role", role)
+				next.ServeHTTP(w, r.WithContext(ctx))
+				return
 			}
 		}
 

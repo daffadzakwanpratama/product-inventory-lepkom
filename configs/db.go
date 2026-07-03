@@ -22,14 +22,16 @@ func ConnectDB() {
 
 	// Soal Isi string koneksi database menggunakan environment variable
 	// Format: "username:password@tcp(host:port)/dbname"
-	
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME)
 
 	DB, err = sql.Open("mysql", dsn)
 	if err != nil {
-		log.Fatal("Gagal membuka koneksi ke database:")
+		log.Fatal("Gagal membuka koneksi ke database:", err)
 	}
 
 	// Gunakan DB.Ping() untuk memverifikasi koneksi
-
-	log.Println("Sukses terkoneksi ke database!")
+	err = DB.Ping()
+	if err != nil {
+		log.Fatal("Gagal melakukan ping ke database:", err)
+	}
 }

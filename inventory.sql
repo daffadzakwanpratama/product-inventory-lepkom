@@ -1,5 +1,5 @@
-CREATE DATABASE inventory;
-USE inventory;
+CREATE DATABASE inventory_npm;
+USE inventory_npm;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,

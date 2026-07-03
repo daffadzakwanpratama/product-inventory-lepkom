@@ -12,7 +12,6 @@ func LoggerMiddleware(next http.Handler) http.Handler {
 
 		next.ServeHTTP(w, r)
 
-		// 	Tambahkan kode untuk cetak log disini
-
+		log.Printf("[%s] %s %s - %v", r.Method, r.RemoteAddr, r.URL.Path, time.Since(start))
 	})
 }

@@ -51,13 +51,21 @@ func getProducts(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Buat query SELECT ke tabel products
-	
+	rows, err := configs.DB.Query("SELECT id, name, stock, price FROM products")
+	if err != nil {
+		utils.RespondError(w, http.StatusInternalServerError, "Gagal mengambil data produk")
+		return
+	}
+	defer rows.Close()
 
 	var products []models.Product
 	for rows.Next() {
 		var p models.Product
 		// Scan hasil query ke dalam struct
-		
+		if err := rows.Scan(&p.ID, &p.Name, &p.Stock, &p.Price); err != nil {
+			utils.RespondError(w, http.StatusInternalServerError, "Gagal memproses data produk")
+			return
+		}
 		products = append(products, p)
 	}
 
